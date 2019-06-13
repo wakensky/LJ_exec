@@ -1,7 +1,7 @@
 #include<iostream>
 #include<unordered_map>
 #include<list>
-#include"gtest/gtest.h"
+
 using namespace std;
 
 class LRUcache{
@@ -56,6 +56,8 @@ private:
 	list<pair<int,int>> cache_;
 	unordered_map<int, list<pair<int,int>>::iterator> m_;
 };
+
+
 int main(int argc, char** argv){
 	LRUcache l = LRUcache(6);
 	l.put(3,2);
