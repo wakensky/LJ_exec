@@ -14,17 +14,7 @@
 std::vector<uint64_t> intersection(const std::vector<uint64_t>& sequence_1,
                                    const std::vector<uint64_t>& sequence_2) {
     // make your codes here
-    std::vector<uint64_t> intersection;
-    uint64_t  position = 0;
-    for(size_t i = 0; i < sequence_1.size(); ++i){
-        while(sequence_1[i] > sequence_2[position]){
-            ++position;
-        }
-        if(sequence_1[i] == sequence_2[position]){
-            intersection.push_back(sequence_1[i]);
-        }
-    }
-    return intersection;
+    return std::vector<uint64_t>();
 }
 
 class IntersectionTester : public ::testing::Test {
@@ -33,13 +23,13 @@ class IntersectionTester : public ::testing::Test {
 TEST_F(IntersectionTester, empty_input) {
     std::vector<uint64_t> res_vec = intersection(
         std::vector<uint64_t>(), {1,5,7});
-    ASSERT_EQ(0ull, res_vec.size()) << "You should give me empty result";
+    ASSERT_EQ(0, res_vec.size()) << "You should give me empty result";
 }
 
 TEST_F(IntersectionTester, empty_intersection) {
     std::vector<uint64_t> res_vec = intersection(
         {1, 3, 5, 7, 9}, {2, 4, 6, 8, 10});
-    ASSERT_EQ(0ull, res_vec.size()) << "You should give me empty result";
+    ASSERT_EQ(0, res_vec.size()) << "You should give me empty result";
 }
 
 TEST_F(IntersectionTester, performance) {
