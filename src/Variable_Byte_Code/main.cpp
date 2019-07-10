@@ -14,23 +14,22 @@ using namespace std;
 
 string encode_number(uint32_t n){
 	vector<uint32_t> result;
-	string Byte;
+	string byte;
 	uint32_t current_byte = 0;
-
-	while(1){
+	while (1) {
 		current_byte = n % 128;
 		result.push_back(current_byte);
-		if(n < 128) break;
+		if (n < 128) break;
 		n = n / 128;
 	}
 	result[0] += 128;
-	string Current_Byte_To_String;
-	for(int i = result.size() - 1; i >= 0; i--){
+	string current_byte_to_String;
+	for (int i = result.size() - 1; i >= 0; i--) {
 		bitset<8> b(result[i]);
-		Current_Byte_To_String = b.to_string();
-		Byte += Current_Byte_To_String;
+		current_byte_to_string = b.to_string();
+		byte += current_byte_to_string;
 	}
-	return Byte;
+	return byte;
 }
 
 /*对vector中的每个元素进行encode
@@ -38,9 +37,9 @@ string encode_number(uint32_t n){
  */
 
 string encode(const vector<uint32_t>& in_sequence){
-	if(in_sequence.empty()) return "";
+	if (in_sequence.empty()) return "";
 	string encode_result;
-	for(int i = 0; i < in_sequence.size(); i++){
+	for (int i = 0; i < in_sequence.size(); i++) {
 		encode_result += encode_number(in_sequence[i]);
 	}
 	return encode_result;
@@ -55,10 +54,10 @@ vector<uint32_t> decode(const string& serialized_integers){
 	vector<uint32_t> numbers;
 	uint32_t current_number = 0;
 	int index = 0;
-        while(index < serialized_integers.length()){
+  while(index < serialized_integers.length()){
 		bitset<8> current(serialized_integers.substr(index,8));
 		uint32_t part = (uint32_t)current.to_ullong();
-		if(part < 128){
+		if (part < 128) {
 			current_number = 128*current_number + part;
 		}else{
 			current_number = 128*current_number + (part - 128);
@@ -70,24 +69,32 @@ vector<uint32_t> decode(const string& serialized_integers){
 	return numbers;	
 }
 
+/*对四个数字进行测试
+ *测试是否能将单个数字转化为二进制的字符串
+ */
 TEST(ENCODE_NUMBER,case1){
-				vector<uint32_t> test = {65,226,456874,0};
-				vector<string> test_ans = {"11000001","0000000111100010",\
+	vector<uint32_t> test = {65,226,456874,0};
+	vector<string> test_ans = {"11000001","0000000111100010",\
 								"000110110111000110101010","10000000"};
-				for(int i = 0; i < test.size(); i++){
-					ASSERT_EQ(encode_number(test[i]), test_ans[i]) 
-									<< "uint32_t to variable_byte string failed"
-									<< "index " << i << "wrong";
-				}
+	for(int i = 0; i < test.size(); i++){
+		ASSERT_EQ(encode_number(test[i]), test_ans[i]) 
+		<< "uint32_t to variable_byte string failed"
+		<< "index " << i << "wrong";
+	}
 	
 }
-
+/*对一个vector中的数字进行测试
+ *测试能否将uint32_t流编码成variable_byte的二进制字符串
+ */
 TEST(ENCODE,case1){
 	vector<uint32_t> test = {546,6,156478};
 	string test_ans = "000001001010001010000110000010010100011010111110";
 	ASSERT_EQ(encode(test), test_ans) << "vector<uint32_t> to VBC string failed";
 }
 
+/*对编码后的字符串进行测试
+ *测试能否解码为对应的vector
+ */
 TEST(DECODE,case1){
 	string test1 = "000001001010001010000110000010010100011010111110";
 	vector<uint32_t> test1_ans = {546,6,156478};
