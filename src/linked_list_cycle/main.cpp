@@ -9,18 +9,19 @@ struct ListNode{
 	ListNode(int v) : val(v), next(NULL) {};
 };
 
-/*利用两个指针，快和慢指针，快指针每次循环跳两个结点，慢指针每次跳一个结点
-若链表无环，则快指针最终为空，若有环则两个指针一定相遇
-且快指针走过的结点数为慢指针两倍
-*/
+//利用两个指针，快和慢指针，快指针每次循环跳两个结点，慢指针每次跳一个结点
+//若链表无环，则快指针最终为空，若有环则两个指针一定相遇
+//且快指针走过的结点数为慢指针两倍
+//时间复杂度O(n),空间复杂度O(1)
+
 bool hasCycle(ListNode* head){
 	ListNode* fast = head;
 	ListNode* slow = head;
-	while(fast){
-		if(!fast->next) return false;
+	while (fast) {
+		if (!fast->next)  return false;
 		fast = fast->next->next;
 		slow = slow->next;
-		if(fast == slow) {
+		if (fast == slow) {
 			return true;
 		}
 	}
@@ -62,7 +63,8 @@ TEST(hasCycle, cast3){
 			cycle_node = pnew;
 		}
 	}
-	ptemp->next = cycle_node;　//将尾结点与设定的cycle_node相连，形成有环链表
+	//将尾结点与设定的cycle_node相连，形成有环链表
+	ptemp->next = cycle_node;
 	ASSERT_EQ(hasCycle(head), true) << "linked list which has cycle test wrong";
 }
 
