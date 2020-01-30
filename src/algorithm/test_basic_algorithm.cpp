@@ -8,9 +8,9 @@ TEST(sort, three_algorithm){
 	//data	
 	vector<int64_t> data;
 	default_random_engine random;
-	uniform_int_distribution<signed> range(-100000,100000);
+	uniform_int_distribution<signed> range(0,100000);
 	int64_t number = 0;	
-	for(int i = 0; i < 50000; i++){
+	for(int i = 0; i < 1500; i++){
 		number = range(random);
 		data.push_back(number);
 	}
@@ -30,6 +30,14 @@ TEST(sort, three_algorithm){
 	vector<int64_t> insertion_test(data.begin(), data.end());
 	sorting.insertion_sort(&insertion_test);
 	ASSERT_EQ(insertion_test, answer);
+	//radix sort;
+	vector<int64_t> radix_test(data.begin(), data.end());
+	sorting.radix_sort(&radix_test);
+	ASSERT_EQ(radix_test, answer);
+	//intro sort
+	vector<int64_t> intro_test(data.begin(), data.end());
+	sorting.intro_sort(&intro_test);
+	ASSERT_EQ(intro_test, answer);
 }
 
 TEST(topk, legal_input){
@@ -53,6 +61,20 @@ TEST(topk, legal_input){
 	for(int i = 0; i < size; i++){
 		sorting.top_k(&data, test_k[i]);
 		ASSERT_EQ(sorting.top_k(&data, test_k[i]), answer[test_k[i]-1]);	
+	}
+}
+
+//search
+TEST(search, binary_search){
+	vector<int64_t> data{-234,-127,-5,0,18,64,349,8246,320096};
+	vector<int64_t> test{-999,-127,0,64,9999,320096,5489741};
+	vector<int> answer{-1,1,3,5,-1,8,-1};
+	BasicAlgorithm algorithm;
+	for(int i = 0; i < test.size(); i++){
+		int index = algorithm.binary_search(data,test[i]);
+		ASSERT_EQ(index, answer[i]);
+		index = algorithm.exponential_search(data,test[i]);
+		ASSERT_EQ(index, answer[i]);
 	}
 }
 
